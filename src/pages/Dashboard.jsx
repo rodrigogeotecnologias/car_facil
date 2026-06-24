@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { MapContainer, TileLayer, Polygon, Polyline, LayersControl } from 'react-leaflet';
-import { Download, AlertTriangle, CheckCircle, Info, MessageSquare, X, Send, Leaf } from 'lucide-react';
+import { Download, AlertCircle, CheckCircle, Info, MessageSquare, X, Send, Leaf, CheckSquare, XCircle, Map, FileDown, FileText, Receipt, Eye, EyeOff } from 'lucide-react';
 import { mockProperty } from '../mockData/propertyData';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import SicarPageHeader from '../components/SicarPageHeader';
 
 const Dashboard = () => {
   const [selectedPendency, setSelectedPendency] = useState(null);
@@ -11,6 +12,20 @@ const Dashboard = () => {
   const [chatMessages, setChatMessages] = useState([
     { text: 'Olá! Sou seu Assistente Ambiental. Como posso ajudar com o seu CAR?', isBot: true }
   ]);
+  const [visibleLayers, setVisibleLayers] = useState({
+    vegetacaoNativa: true,
+    areaConsolidada: true,
+    cursoDagua: true,
+    app: true,
+    reservaLegal: true
+  });
+  const [layerOpacity, setLayerOpacity] = useState({
+    vegetacaoNativa: 0.5,
+    areaConsolidada: 0.5,
+    cursoDagua: 0.5,
+    app: 0.5,
+    reservaLegal: 0.5
+  });
   const [basemap, setBasemap] = useState('osm'); // 'osm' ou 'satellite'
   const reportRef = useRef(null);
 
@@ -46,23 +61,27 @@ const Dashboard = () => {
     window.print();
   };
 
-  const renderStatusIcon = (status) => {
-    if (status === 'success') return <CheckCircle color="var(--success)" />;
-    if (status === 'warning') return <AlertTriangle color="var(--warning)" />;
-    if (status === 'danger') return <X color="var(--danger)" style={{ backgroundColor: '#f8d7da', borderRadius: '50%' }} />;
-    return <Info color="var(--primary-light)" />;
+  const renderStatusIcon = (status, size = 64) => {
+    const props = { size, style: { flexShrink: 0 } };
+    if (status === 'success') return <CheckCircle {...props} color="var(--success)" />;
+    if (status === 'warning') return <AlertCircle {...props} color="var(--warning)" />;
+    if (status === 'danger') return <XCircle {...props} color="var(--danger)" />;
+    return <Info {...props} color="var(--primary-light)" />;
   };
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       
+      <SicarPageHeader />
+
+      <div style={{ backgroundColor: '#e8f5e9', padding: '10px 15px', color: '#128242', fontWeight: 'bold', marginBottom: '20px', borderRadius: '4px' }}>
+        Prazo para atendimento: 08/01/2027 às 23:59 (horário de Brasília)
+      </div>
+
       {/* Header Bar */}
       <div className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2>{mockProperty.nome}</h2>
-          <p style={{ color: 'var(--text-muted)' }}>
-            {mockProperty.municipio} - {mockProperty.estado} | CAR: {mockProperty.numeroCar}
-          </p>
+          <h2>Resumo da Revisão de Dados</h2>
         </div>
         <div className="no-print" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           <div style={{ textAlign: 'right' }}>
@@ -75,16 +94,7 @@ const Dashboard = () => {
               Boa condição para análise
             </div>
           </div>
-          <div className="no-print" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <button className="btn btn-primary" onClick={() => alert("Simulação: Redirecionando para integração com Gov.br e enviando os dados validados para a base oficial do SICAR.")}>
-              <CheckCircle size={20} />
-              Enviar para o SICAR (Oficial)
-            </button>
-            <button className="btn btn-outline" onClick={generatePDF}>
-              <Download size={20} />
-              Gerar Relatório PDF
-            </button>
-          </div>
+
         </div>
       </div>
 
@@ -93,45 +103,12 @@ const Dashboard = () => {
         {/* Left Column: Map and Details */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           
-          {/* Map Container */}
-          <div className="card map-container" style={{ padding: 0, overflow: 'hidden', height: '500px' }}>
-            <MapContainer center={mockProperty.center} zoom={15} style={{ height: '100%', width: '100%' }}>
-              <LayersControl position="topright">
-                <LayersControl.BaseLayer name="OpenStreetMap">
-                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                </LayersControl.BaseLayer>
-                <LayersControl.BaseLayer checked name="Satélite (Simulado)">
-                  <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
-                </LayersControl.BaseLayer>
-                
-                <LayersControl.Overlay checked name="[DECLARADO] Limites do Imóvel">
-                  <Polygon positions={mockProperty.limites} pathOptions={{ color: 'white', fillOpacity: 0, weight: 3, dashArray: '5, 5' }} />
-                </LayersControl.Overlay>
-                <LayersControl.Overlay checked name="[BASE GOVERNO] Rio / Hidrografia">
-                  <Polyline positions={mockProperty.hidrografia} pathOptions={{ color: '#00bfff', weight: 4 }} />
-                </LayersControl.Overlay>
-                <LayersControl.Overlay checked name="[BASE GOVERNO] APP Oficial (30m)">
-                  <Polygon positions={mockProperty.appOficial} pathOptions={{ color: 'red', fillOpacity: 0.3, weight: 1 }} />
-                </LayersControl.Overlay>
-                <LayersControl.Overlay checked name="[DECLARADO] APP (Inconsistente)">
-                  <Polygon positions={mockProperty.appDeclarada} pathOptions={{ color: 'yellow', fillOpacity: 0.6, weight: 2 }} />
-                </LayersControl.Overlay>
-                <LayersControl.Overlay checked name="[DECLARADO] Reserva Legal">
-                  <Polygon positions={mockProperty.reservaLegal} pathOptions={{ color: 'green', fillOpacity: 0.5, weight: 2 }} />
-                </LayersControl.Overlay>
-                <LayersControl.Overlay name="[DECLARADO] Uso Alternativo (Consolidada)">
-                  <Polygon positions={mockProperty.usoAlternativo} pathOptions={{ color: 'orange', fillOpacity: 0.4, weight: 1 }} />
-                </LayersControl.Overlay>
-              </LayersControl>
-            </MapContainer>
-          </div>
-
-          {/* Tradutor Ambiental (Details) */}
+          {/* Tradutor Ambiental (Details) or Alert */}
           {selectedPendency ? (
             <div className="card animate-fade-in" style={{ borderLeft: `5px solid var(--${selectedPendency.status})` }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {renderStatusIcon(selectedPendency.status)}
+                  {renderStatusIcon(selectedPendency.status, 32)}
                   {selectedPendency.tipo}
                 </h3>
                 <button onClick={() => setSelectedPendency(null)} className="btn btn-outline" style={{ padding: '0.25rem 0.5rem' }}>Fechar</button>
@@ -167,11 +144,157 @@ const Dashboard = () => {
               </div>
             </div>
           ) : (
-            <div className="card text-center" style={{ padding: '3rem', color: 'var(--text-muted)', backgroundColor: 'var(--bg-color)' }}>
-              <Info size={48} style={{ margin: '0 auto 1rem', opacity: 0.5 }} />
-              <p>Clique em uma pendência ao lado para ver o detalhamento e as recomendações pelo Tradutor Ambiental.</p>
+            <div className="card text-center animate-fade-in" style={{ padding: '1.5rem', color: 'var(--text-muted)', backgroundColor: 'var(--bg-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Info size={32} style={{ margin: '0 auto 0.5rem', opacity: 0.5 }} />
+              <p style={{ margin: 0 }}>Clique em uma pendência ao lado para ver o detalhamento e as recomendações pelo Tradutor Ambiental.</p>
             </div>
           )}
+
+          {/* TWO MAPS side-by-side */}
+          <div className="animate-fade-in" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            {/* Map 1: Declaração */}
+            <div className="card map-container" style={{ padding: 0, overflow: 'hidden', height: '350px' }}>
+              <div style={{ backgroundColor: '#f0f0f0', padding: '5px 10px', fontWeight: 'bold', fontSize: '0.8rem', borderBottom: '1px solid #ccc', zIndex: 1000, position: 'relative' }}>Declaração</div>
+              <MapContainer center={mockProperty.center} zoom={15} style={{ height: 'calc(100% - 30px)', width: '100%', zIndex: 1 }}>
+                <LayersControl position="topright">
+                  <LayersControl.BaseLayer name="OpenStreetMap">
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  </LayersControl.BaseLayer>
+                  <LayersControl.BaseLayer checked name="Satélite (Simulado)">
+                    <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+                  </LayersControl.BaseLayer>
+                </LayersControl>
+                <Polygon positions={mockProperty.limites} pathOptions={{ color: 'white', fillOpacity: 0, weight: 3, dashArray: '5, 5' }} />
+                {visibleLayers.vegetacaoNativa && <Polygon positions={mockProperty.vegetacaoNativa} pathOptions={{ color: '#28a745', fillOpacity: layerOpacity.vegetacaoNativa, opacity: layerOpacity.vegetacaoNativa > 0 ? 1 : 0, weight: 1 }} />}
+                {visibleLayers.areaConsolidada && <Polygon positions={mockProperty.areaConsolidada} pathOptions={{ color: '#e0e0e0', fillOpacity: layerOpacity.areaConsolidada, opacity: layerOpacity.areaConsolidada > 0 ? 1 : 0, weight: 1 }} />}
+                {visibleLayers.cursoDagua && <Polyline positions={mockProperty.hidrografia} pathOptions={{ color: '#00ffff', opacity: layerOpacity.cursoDagua, weight: 4 }} />}
+                {visibleLayers.app && <Polygon positions={mockProperty.appDeclarada} pathOptions={{ color: '#ffff00', fillOpacity: layerOpacity.app, opacity: layerOpacity.app > 0 ? 1 : 0, weight: 1 }} />}
+                {visibleLayers.reservaLegal && <Polygon positions={mockProperty.reservaLegal} pathOptions={{ color: '#00ff00', fillOpacity: layerOpacity.reservaLegal, opacity: layerOpacity.reservaLegal > 0 ? 1 : 0, weight: 1 }} />}
+              </MapContainer>
+            </div>
+            
+            {/* Map 2: Informações de Referência */}
+            <div className="card map-container" style={{ padding: 0, overflow: 'hidden', height: '350px' }}>
+              <div style={{ backgroundColor: '#e8f5e9', padding: '5px 10px', fontWeight: 'bold', fontSize: '0.8rem', borderBottom: '1px solid #ccc', color: '#128242', zIndex: 1000, position: 'relative' }}>Informações de referência</div>
+              <MapContainer center={mockProperty.center} zoom={15} style={{ height: 'calc(100% - 30px)', width: '100%', zIndex: 1 }}>
+                <LayersControl position="topright">
+                  <LayersControl.BaseLayer name="OpenStreetMap">
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  </LayersControl.BaseLayer>
+                  <LayersControl.BaseLayer checked name="Satélite (Simulado)">
+                    <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+                  </LayersControl.BaseLayer>
+                </LayersControl>
+                <Polygon positions={mockProperty.limites} pathOptions={{ color: 'white', fillOpacity: 0, weight: 3, dashArray: '5, 5' }} />
+                {visibleLayers.vegetacaoNativa && <Polygon positions={mockProperty.vegetacaoNativaOficial} pathOptions={{ color: '#28a745', fillOpacity: layerOpacity.vegetacaoNativa, opacity: layerOpacity.vegetacaoNativa > 0 ? 1 : 0, weight: 1 }} />}
+                {visibleLayers.areaConsolidada && <Polygon positions={mockProperty.areaConsolidadaOficial} pathOptions={{ color: '#e0e0e0', fillOpacity: layerOpacity.areaConsolidada, opacity: layerOpacity.areaConsolidada > 0 ? 1 : 0, weight: 1 }} />}
+                {visibleLayers.cursoDagua && <Polyline positions={mockProperty.hidrografia} pathOptions={{ color: '#00ffff', opacity: layerOpacity.cursoDagua, weight: 4 }} />}
+                {visibleLayers.app && <Polygon positions={mockProperty.appOficial} pathOptions={{ color: '#ffff00', fillOpacity: layerOpacity.app, opacity: layerOpacity.app > 0 ? 1 : 0, weight: 1 }} />}
+                {visibleLayers.reservaLegal && <Polygon positions={mockProperty.reservaLegalOficial} pathOptions={{ color: '#00ff00', fillOpacity: layerOpacity.reservaLegal, opacity: layerOpacity.reservaLegal > 0 ? 1 : 0, weight: 1 }} />}
+              </MapContainer>
+            </div>
+          </div>
+
+          {/* Comparison Table */}
+          <div className="card animate-fade-in" style={{ padding: '0', overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+              <thead style={{ backgroundColor: '#f5f5f5', borderBottom: '2px solid #ddd' }}>
+                <tr>
+                  <th style={{ padding: '10px', textAlign: 'left' }}>Tipo de área</th>
+                  <th style={{ padding: '10px', textAlign: 'left', backgroundColor: '#fff3cd' }}>Área declarada (ha)</th>
+                  <th style={{ padding: '10px', textAlign: 'left', backgroundColor: '#e2e3e5' }}>Informações de Referência (ha)</th>
+                  <th style={{ padding: '10px', textAlign: 'left' }}>Divergência</th>
+                  <th style={{ padding: '10px', textAlign: 'center', width: '120px' }}>Habilitar camada</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* COBERTURA DO SOLO */}
+                <tr style={{ backgroundColor: '#e9ecef' }}>
+                  <td colSpan="5" style={{ padding: '8px 10px', fontWeight: 'bold' }}>Cobertura do solo</td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #eee' }}>
+                  <td style={{ padding: '10px' }}><div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><div style={{ width: '10px', height: '10px', backgroundColor: '#28a745' }}></div>Remanescente de vegetação nativa</div></td>
+                  <td style={{ padding: '10px' }}>34,86 ha</td>
+                  <td style={{ padding: '10px' }}>29,04 ha</td>
+                  <td style={{ padding: '10px', color: 'red' }}>5,82 ha</td>
+                  <td style={{ padding: '10px', textAlign: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <input type="range" min="0" max="100" value={layerOpacity.vegetacaoNativa * 100} onChange={(e) => setLayerOpacity(prev => ({...prev, vegetacaoNativa: parseInt(e.target.value)/100}))} style={{ width: '40px' }} />
+                      <button className="btn btn-outline" style={{ padding: '2px', border: 'none' }} onClick={() => setVisibleLayers(prev => ({...prev, vegetacaoNativa: !prev.vegetacaoNativa}))}>
+                        {visibleLayers.vegetacaoNativa ? <Eye size={18} /> : <EyeOff size={18} color="var(--text-muted)" />}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #eee' }}>
+                  <td style={{ padding: '10px' }}><div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><div style={{ width: '10px', height: '10px', backgroundColor: '#e0e0e0' }}></div>Área consolidada</div></td>
+                  <td style={{ padding: '10px' }}>17,43 ha</td>
+                  <td style={{ padding: '10px' }}>14,53 ha</td>
+                  <td style={{ padding: '10px', color: 'red' }}>2,90 ha</td>
+                  <td style={{ padding: '10px', textAlign: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <input type="range" min="0" max="100" value={layerOpacity.areaConsolidada * 100} onChange={(e) => setLayerOpacity(prev => ({...prev, areaConsolidada: parseInt(e.target.value)/100}))} style={{ width: '40px' }} />
+                      <button className="btn btn-outline" style={{ padding: '2px', border: 'none' }} onClick={() => setVisibleLayers(prev => ({...prev, areaConsolidada: !prev.areaConsolidada}))}>
+                        {visibleLayers.areaConsolidada ? <Eye size={18} /> : <EyeOff size={18} color="var(--text-muted)" />}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #eee' }}>
+                  <td style={{ padding: '10px' }}><div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><div style={{ width: '10px', height: '10px', backgroundColor: '#00ffff' }}></div>Curso d'água</div></td>
+                  <td style={{ padding: '10px' }}>0,00 ha</td>
+                  <td style={{ padding: '10px' }}>0,00 ha</td>
+                  <td style={{ padding: '10px' }}>0,00 ha</td>
+                  <td style={{ padding: '10px', textAlign: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <input type="range" min="0" max="100" value={layerOpacity.cursoDagua * 100} onChange={(e) => setLayerOpacity(prev => ({...prev, cursoDagua: parseInt(e.target.value)/100}))} style={{ width: '40px' }} />
+                      <button className="btn btn-outline" style={{ padding: '2px', border: 'none' }} onClick={() => setVisibleLayers(prev => ({...prev, cursoDagua: !prev.cursoDagua}))}>
+                        {visibleLayers.cursoDagua ? <Eye size={18} /> : <EyeOff size={18} color="var(--text-muted)" />}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                {/* APP */}
+                <tr style={{ backgroundColor: '#e9ecef' }}>
+                  <td colSpan="5" style={{ padding: '8px 10px', fontWeight: 'bold' }}>Áreas de Preservação Permanente</td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #eee' }}>
+                  <td style={{ padding: '10px' }}><div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><div style={{ width: '10px', height: '10px', backgroundColor: '#ffff00' }}></div>Cursos d'água e nascentes</div></td>
+                  <td style={{ padding: '10px' }}>13,28 ha</td>
+                  <td style={{ padding: '10px' }}>24,90 ha</td>
+                  <td style={{ padding: '10px', color: 'red' }}>11,62 ha</td>
+                  <td style={{ padding: '10px', textAlign: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <input type="range" min="0" max="100" value={layerOpacity.app * 100} onChange={(e) => setLayerOpacity(prev => ({...prev, app: parseInt(e.target.value)/100}))} style={{ width: '40px' }} />
+                      <button className="btn btn-outline" style={{ padding: '2px', border: 'none' }} onClick={() => setVisibleLayers(prev => ({...prev, app: !prev.app}))}>
+                        {visibleLayers.app ? <Eye size={18} /> : <EyeOff size={18} color="var(--text-muted)" />}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                {/* RESERVA LEGAL */}
+                <tr style={{ backgroundColor: '#e9ecef' }}>
+                  <td colSpan="5" style={{ padding: '8px 10px', fontWeight: 'bold' }}>Reserva Legal</td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #eee' }}>
+                  <td style={{ padding: '10px' }}><div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><div style={{ width: '10px', height: '10px', backgroundColor: '#00ff00' }}></div>Reserva Legal</div></td>
+                  <td style={{ padding: '10px' }}>17,43 ha</td>
+                  <td style={{ padding: '10px' }}>14,53 ha</td>
+                  <td style={{ padding: '10px', color: 'red' }}>2,90 ha</td>
+                  <td style={{ padding: '10px', textAlign: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <input type="range" min="0" max="100" value={layerOpacity.reservaLegal * 100} onChange={(e) => setLayerOpacity(prev => ({...prev, reservaLegal: parseInt(e.target.value)/100}))} style={{ width: '40px' }} />
+                      <button className="btn btn-outline" style={{ padding: '2px', border: 'none' }} onClick={() => setVisibleLayers(prev => ({...prev, reservaLegal: !prev.reservaLegal}))}>
+                        {visibleLayers.reservaLegal ? <Eye size={18} /> : <EyeOff size={18} color="var(--text-muted)" />}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Right Column: Validation Cards */}
@@ -191,7 +314,7 @@ const Dashboard = () => {
               onClick={() => setSelectedPendency(pendencia)}
             >
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                {renderStatusIcon(pendencia.status)}
+                {renderStatusIcon(pendencia.status, 64)}
                 <div>
                   <h4 style={{ margin: 0, fontSize: '1rem' }}>{pendencia.tipo}</h4>
                   <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>

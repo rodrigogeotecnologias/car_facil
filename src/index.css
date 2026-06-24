@@ -1,22 +1,22 @@
 :root {
-  --primary: #0f5132;
-  --primary-light: #198754;
-  --primary-bg: #d1e7dd;
-  --secondary: #8B4513;
-  --bg-color: #f8f9fa;
-  --surface: #ffffff;
+  --primary: #128242; /* Verde SICAR Escuro */
+  --primary-light: #4caf50; /* Verde claro logo */
+  --bg-color: #f5f6f8; /* Fundo cinza claro */
+  --sidebar-bg: #f9f9f9;
+  --text-main: #333333;
   --text-dark: #212529;
-  --text-muted: #6c757d;
-  --success: #198754;
-  --warning: #ffc107;
-  --danger: #dc3545;
+  --text-muted: #666666;
+  --success: #2ecc71;
+  --warning: #f1c40f;
+  --danger: #e74c3c;
+  --surface: #ffffff;
   --border: #dee2e6;
   
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   
-  --radius: 0.5rem;
+  --radius: 4px;
   --radius-lg: 1rem;
 }
 
