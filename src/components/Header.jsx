@@ -60,7 +60,7 @@ const Header = () => {
                 <p style={{ margin: '0 0 0.5rem 0' }}>Olá, Seu Raimundo! 👋</p>
                 <p style={{ margin: '0 0 0.5rem 0' }}>A nossa **Análise Dinamizada** concluiu a verificação do CAR da sua fazenda (*Fazenda haCARthon*).</p>
                 <p style={{ margin: '0 0 0.5rem 0' }}>⚠️ Identificamos uma pendência na sua Área de Preservação Permanente (APP).</p>
-                <p style={{ margin: 0, fontWeight: 'bold' }}>Mas não se preocupe! Acesse nosso Tradutor Ambiental e veja como é simples resolver isso clicando no link abaixo:</p>
+                <p style={{ margin: 0, fontWeight: 'bold' }}>Mas não se preocupe! Você tem um prazo para atendimento até 08/01/2027. Acesse nosso Tradutor Ambiental para entender isso de forma simples e evitar multas:</p>
                 <a href="#" onClick={(e) => { e.preventDefault(); setWhatsappOpen(false); navigate('/tradutor/pendencias'); }} style={{ display: 'block', marginTop: '0.5rem', wordBreak: 'break-all', color: '#3498db' }}>https://car-facil.gov.br/tradutor/pendencias</a>
                 <div style={{ fontSize: '0.7rem', color: '#999', textAlign: 'right', marginTop: '0.5rem' }}>08:30</div>
               </div>

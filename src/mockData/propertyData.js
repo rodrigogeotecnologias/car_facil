@@ -6,6 +6,10 @@ export const mockProperty = {
   status: 'Pendente',
   indiceRegularidade: 85,
   center: [-15.6500, -48.1500],
+  proprietario: {
+    nome: 'Seu Raimundo',
+    cpf: '123.456.789-00'
+  },
 
   limites: [
     [-15.6450, -48.1550], [-15.6450, -48.1450], [-15.6550, -48.1450], [-15.6550, -48.1550]

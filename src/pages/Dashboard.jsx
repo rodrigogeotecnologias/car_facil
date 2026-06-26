@@ -4,11 +4,16 @@ import { Download, AlertCircle, CheckCircle, Info, MessageSquare, X, Send, Leaf,
 import { mockProperty } from '../mockData/propertyData';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useNavigate } from 'react-router-dom';
 import SicarPageHeader from '../components/SicarPageHeader';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [selectedPendency, setSelectedPendency] = useState(null);
   const [chatOpen, setChatOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalState, setModalState] = useState('form'); // form, processing, success
+  const [motherName, setMotherName] = useState('');
   const [chatMessages, setChatMessages] = useState([
     { text: 'Olá! Sou seu Assistente Ambiental. Como posso ajudar com o seu CAR?', isBot: true }
   ]);
@@ -55,6 +60,17 @@ const Dashboard = () => {
       
       setChatMessages(prev => [...prev, { text: reply, isBot: true }]);
     }, 1000);
+  };
+
+  const handleConfirmRetification = () => {
+    if (!motherName) {
+      alert("Por favor, preencha o Nome da mãe para assinar o termo.");
+      return;
+    }
+    setModalState('processing');
+    setTimeout(() => {
+      setModalState('success');
+    }, 2500);
   };
 
   const generatePDF = () => {
@@ -140,6 +156,17 @@ const Dashboard = () => {
                     <h4 style={{ color: 'var(--primary)', fontSize: '1rem' }}>Recomendação</h4>
                     <p style={{ color: 'var(--text-muted)' }}>{selectedPendency.recomendacao}</p>
                   </div>
+                </div>
+
+                <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+                  <button 
+                    onClick={() => navigate('/analise')} 
+                    className="btn btn-primary" 
+                    style={{ fontSize: '1.1rem', padding: '0.75rem 2rem', backgroundColor: '#128242' }}
+                  >
+                    Entendi! Quero acessar o módulo de Análise do Governo
+                  </button>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>Ao clicar, você será direcionado para a aba de Análise Oficial do SICAR.</p>
                 </div>
               </div>
             </div>
@@ -376,7 +403,6 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

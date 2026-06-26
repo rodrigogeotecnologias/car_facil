@@ -59,8 +59,8 @@ const Oportunidades = () => {
                   </div>
                 </div>
                 <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-                  <Link to="/dashboard" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                    Resolver Pendências <ArrowRight size={18} />
+                  <Link to="/tradutor/pendencias" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                    Quero entender melhor e resolver minhas pendências <ArrowRight size={18} />
                   </Link>
                 </div>
               </div>
