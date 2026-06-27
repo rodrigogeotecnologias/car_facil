@@ -4,7 +4,7 @@ export const mockProperty = {
   areaTotal: 83.00,
   carId: 'GO-1234567-89ABCDEF0123456789ABCDEF',
   status: 'Pendente',
-  indiceRegularidade: 65,
+  indiceRegularidade: 80,
   center: [-15.6500, -48.1500],
   proprietario: {
     nome: 'Seu Raimundo',
@@ -432,20 +432,9 @@ export const mockProperty = {
         'Impedimento para obter financiamentos agrícolas.',
         'Bloqueio do CAR no sistema.'
       ],
-      recomendacao: 'Ajuste os limites da sua APP no mapa para que ela acompanhe o rio com a espessura correta. Caso a área já esteja desmatada, será necessário propor um Projeto de Recuperação de Área Degradada (PRAD).'
-    },
-    {
-      id: 2,
-      tipo: 'Sobreposição com APP',
-      status: 'warning',
-      tituloTecnico: 'Interseção de feição "Área Consolidada" com feição "Área de Preservação Permanente" oficial.',
-      explicacaoSimples: 'Parte da sua "Área Consolidada" (2,90 ha) está invadindo a faixa de preservação do rio calculada pela base de referência oficial.',
-      impactos: [
-        'Invalidação parcial da Área Consolidada declarada.',
-        'Necessidade de recuo das atividades produtivas.',
-        'Notificação para adequação ambiental.'
-      ],
-      recomendacao: 'Revise o desenho da sua Área Consolidada. Ela deve terminar exatamente onde começa a APP do rio. Se houver uso consolidado antigo (antes de 2008), será necessário comprovar com imagens de satélite históricas.'
+      recomendacao: 'Ajuste os limites da sua APP no mapa na aba de Retificação para que ela acompanhe o rio corretamente.'
     }
   ]
 };
+
+export const appState = { nota: mockProperty.indiceRegularidade };

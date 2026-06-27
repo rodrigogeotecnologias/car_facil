@@ -7,7 +7,6 @@ import Home from './pages/Home'
 import Cadastro from './pages/Cadastro'
 import Consulta from './pages/Consulta'
 import Dashboard from './pages/Dashboard'
-import Regularizacao from './pages/Regularizacao'
 import CentralMensagens from './pages/CentralMensagens'
 import Tutoriais from './pages/Tutoriais'
 import Oportunidades from './pages/Oportunidades'
@@ -28,7 +27,6 @@ function App() {
               <Route path="/consulta" element={<Consulta />} />
               <Route path="/dashboard" element={<Navigate to="/tradutor/pendencias" replace />} />
               <Route path="/tradutor/pendencias" element={<Dashboard />} />
-              <Route path="/tradutor/regularizacao" element={<Regularizacao />} />
               <Route path="/retificacao" element={<RetificacaoDinamizada />} />
               <Route path="/analise" element={<Analise />} />
               <Route path="/mensagens" element={<CentralMensagens />} />

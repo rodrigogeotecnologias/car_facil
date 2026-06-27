@@ -25,7 +25,7 @@ const Sidebar = () => {
         <Link to="/mensagens" className={`sicar-sidebar-item ${location.pathname === '/mensagens' ? 'active' : ''}`} style={{ fontWeight: 'bold' }}>
           <Mail size={20} />
           <span>Central de Mensagens</span>
-          <span style={{ backgroundColor: '#e74c3c', color: 'white', fontSize: '0.75rem', fontWeight: 'bold', width: '20px', height: '20px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto' }}>2</span>
+          <span style={{ backgroundColor: '#e74c3c', color: 'white', fontSize: '0.75rem', fontWeight: 'bold', width: '20px', height: '20px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto' }}>1</span>
         </Link>
 
         <Link to="#" className="sicar-sidebar-item">
@@ -38,20 +38,10 @@ const Sidebar = () => {
           Análise
         </Link>
 
-        <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-          <div className="sicar-sidebar-item" style={{ cursor: 'default', color: '#333', fontWeight: 'bold' }}>
-            <Wand2 size={20} />
-            Tradutor Ambiental
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '100%', backgroundColor: '#f9f9f9', borderLeft: '3px solid #ddd', marginLeft: '20px', paddingLeft: '10px' }}>
-            <Link to="/tradutor/pendencias" className={`sicar-sidebar-item ${location.pathname === '/tradutor/pendencias' ? 'active' : ''}`} style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
-              Pendências
-            </Link>
-            <Link to="/tradutor/regularizacao" className={`sicar-sidebar-item ${location.pathname === '/tradutor/regularizacao' ? 'active' : ''}`} style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
-              Regularização (PRA)
-            </Link>
-          </div>
-        </div>
+        <Link to="/tradutor/pendencias" className={`sicar-sidebar-item ${location.pathname.startsWith('/tradutor') ? 'active' : ''}`} style={{ fontWeight: 'bold' }}>
+          <Wand2 size={20} />
+          Tradutor Ambiental
+        </Link>
 
         <Link to="/oportunidades" className={`sicar-sidebar-item ${isActive('/oportunidades') ? 'active' : ''}`} style={{ fontWeight: 'bold' }}>
           <Leaf size={20} />

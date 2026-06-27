@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Polygon, Polyline, LayersControl } from 'react-leaflet';
-import { mockProperty } from '../mockData/propertyData';
+import { mockProperty, appState } from '../mockData/propertyData';
 import { X, CheckCircle, Eye, EyeOff, Info, CheckSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SicarPageHeader from '../components/SicarPageHeader';
@@ -35,6 +35,7 @@ const RetificacaoDinamizada = () => {
     
     setModalState('processing');
     setTimeout(() => {
+      appState.nota = 100;
       setModalState('success');
     }, 2000);
   };
@@ -42,7 +43,7 @@ const RetificacaoDinamizada = () => {
   const handleClose = () => {
     setIsModalOpen(false);
     if (modalState === 'success') {
-      navigate('/tradutor/regularizacao');
+      navigate('/oportunidades');
     }
     setTimeout(() => {
       setModalState('form');

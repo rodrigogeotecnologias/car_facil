@@ -158,15 +158,14 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+                <div style={{ marginTop: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
                   <button 
-                    onClick={() => navigate('/analise')} 
+                    onClick={() => navigate('/retificacao')} 
                     className="btn btn-primary" 
-                    style={{ fontSize: '1.1rem', padding: '0.75rem 2rem', backgroundColor: '#128242' }}
+                    style={{ fontSize: '1.1rem', padding: '0.75rem 2rem', backgroundColor: '#128242', width: '100%', maxWidth: '500px' }}
                   >
-                    Entendi! Quero acessar o módulo de Análise do Governo
+                    Corrigir Limites (Retificação Dinamizada)
                   </button>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>Ao clicar, você será direcionado para a aba de Análise Oficial do SICAR.</p>
                 </div>
               </div>
             </div>

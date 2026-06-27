@@ -55,16 +55,7 @@ const CentralMensagens = () => {
               </tr>
             </thead>
             <tbody>
-              <tr style={{ borderBottom: '1px solid #ddd', backgroundColor: '#e8f5e9' }}>
-                <td style={{ padding: '12px 15px', textAlign: 'center' }}>
-                  <div style={{ backgroundColor: '#4caf50', border: '2px solid #4caf50', width: '28px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '3px' }}>
-                    <Mail size={16} color="white" strokeWidth={3} />
-                  </div>
-                </td>
-                <td style={{ padding: '12px 15px', color: '#555' }}>22/07/2026</td>
-                <td style={{ padding: '12px 15px', color: '#555' }}>15:10:04</td>
-                <td style={{ padding: '12px 15px', color: '#333', fontWeight: 'bold' }}>Notificação de Passivo Ambiental e Adesão ao PRA</td>
-              </tr>
+
               <tr style={{ borderBottom: '1px solid #ddd', backgroundColor: '#fcfcfc' }}>
                 <td style={{ padding: '12px 15px', textAlign: 'center' }}>
                   <div style={{ backgroundColor: '#4caf50', border: '2px solid #4caf50', width: '28px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '3px' }}>
@@ -159,20 +150,7 @@ const CentralMensagens = () => {
                 </div>
               </div>
 
-              <div className="animate-fade-in" style={{ backgroundColor: 'white', padding: '0.8rem 1rem', borderRadius: '0 15px 15px 15px', maxWidth: '90%', alignSelf: 'flex-start', boxShadow: '0 1px 2px rgba(0,0,0,0.1)', position: 'relative', animationDelay: '0.8s' }}>
-                <p style={{ margin: '0 0 0.5rem 0', color: '#333' }}>🌲 <strong>Notificação Oficial</strong></p>
-                <p style={{ margin: '0 0 0.5rem 0', color: '#333' }}>O sistema também identificou áreas desmatadas na sua propriedade que precisam de regularização (Adesão ao PRA).</p>
-                <p style={{ margin: 0, fontWeight: 'bold', color: '#333' }}>Clique no link abaixo para conhecer as opções disponíveis de forma simplificada:</p>
-                
-                <div style={{ backgroundColor: '#f0f0f0', borderRadius: '8px', padding: '10px', marginTop: '10px', borderLeft: '4px solid #128242' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#128242', display: 'block' }}>Central do Proprietário - Regularização (PRA)</span>
-                  <Link to="/tradutor/regularizacao" style={{ fontSize: '0.85rem', color: '#3498db', textDecoration: 'none', wordBreak: 'break-all' }}>https://car-em-dia.gov.br/tradutor/regularizacao</Link>
-                </div>
-                
-                <div style={{ fontSize: '0.7rem', color: '#999', textAlign: 'right', marginTop: '0.5rem', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '4px' }}>
-                  15:10:04 {viewMode !== 'sms' && <Check size={14} color="#999" />}
-                </div>
-              </div>
+
             </div>
 
             {/* Input Mock */}
