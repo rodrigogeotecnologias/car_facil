@@ -4,7 +4,7 @@ const scriptScenes = [
   { 
     id: 1, 
     title: "Cena 1: Oportunidades",
-    text: "No Brasil, ter pendência no CAR é deixar dinheiro na mesa! Produtores perdem acesso a crédito verde e Pagamentos por Serviços Ambientais (PSA) por não entenderem a burocracia. Por isso, criamos o CAR em Dia, para rodar nativamente dentro do SICAR. Nós gamificamos regras complexas para o produtor entender o que falta para a Nota 100.", 
+    text: "No Brasil, ter pendência no CAR é deixar dinheiro na mesa! Produtores perdem acesso a crédito verde e Pagamentos por Serviços Ambientais (PSA) por não entenderem a burocracia. Por isso, criamos o CAR em Dia, para rodar nativamente dentro da Central do Proprietário/Possuidor. Nós gamificamos regras complexas para o produtor entender o que falta para a Nota 100.", 
     duration: 23000 
   },
   { 
@@ -16,7 +16,7 @@ const scriptScenes = [
   { 
     id: 3, 
     title: "Cena 3: A Realidade",
-    text: "Ao clicar, ele cai na tela de Análise do SICAR. Aquele monte de termo técnico assusta. Mas adicionamos o botão 'Tradutor Ambiental', que descomplica esse documento oficial na hora!", 
+    text: "Ao clicar, ele cai na tela de análise. Aquele monte de termo técnico assusta. Mas adicionamos o botão 'Tradutor Ambiental', que descomplica esse documento oficial na hora!", 
     duration: 10000 
   },
   { 
