@@ -122,7 +122,7 @@ const CentralMensagens = () => {
             </div>
             
             {/* Chat Content */}
-            <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1, overflowY: 'auto' }}>
+            <div id="chat-container" style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1, overflowY: 'auto' }}>
               <div style={{ alignSelf: 'center', backgroundColor: '#e1f5fe', padding: '0.25rem 0.75rem', borderRadius: '10px', fontSize: '0.8rem', color: '#555', boxShadow: '0 1px 1px rgba(0,0,0,0.1)' }}>
                 22 de Julho de 2026
               </div>
@@ -138,11 +138,11 @@ const CentralMensagens = () => {
 
               <div className="animate-fade-in" style={{ backgroundColor: 'white', padding: '0.8rem 1rem', borderRadius: '0 15px 15px 15px', maxWidth: '90%', alignSelf: 'flex-start', boxShadow: '0 1px 2px rgba(0,0,0,0.1)', position: 'relative', animationDelay: '0.5s' }}>
                 <p style={{ margin: '0 0 0.5rem 0', color: '#333' }}>⚠️ Identificamos uma pendência na sua Área de Preservação Permanente (APP).</p>
-                <p style={{ margin: 0, fontWeight: 'bold', color: '#333' }}>Mas não se preocupe! Você tem um prazo para atendimento até 08/01/2027. Acesse nosso Tradutor Ambiental para resolver isso de forma simples e evitar multas:</p>
+                <p style={{ margin: 0, fontWeight: 'bold', color: '#333' }}>Você tem um prazo para atendimento até 08/01/2027. Acesse o sistema do SICAR para verificar os detalhes da notificação:</p>
                 
                 <div style={{ backgroundColor: '#f0f0f0', borderRadius: '8px', padding: '10px', marginTop: '10px', borderLeft: '4px solid #128242' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#128242', display: 'block' }}>Central do Proprietário - Tradutor Ambiental</span>
-                  <Link to="/tradutor/pendencias" style={{ fontSize: '0.85rem', color: '#3498db', textDecoration: 'none', wordBreak: 'break-all' }}>https://car-em-dia.gov.br/tradutor/pendencias</Link>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#128242', display: 'block' }}>Central do Proprietário - Análise de Dados</span>
+                  <Link to="/analise" style={{ fontSize: '0.85rem', color: '#3498db', textDecoration: 'none', wordBreak: 'break-all' }}>https://car-em-dia.gov.br/analise</Link>
                 </div>
                 
                 <div style={{ fontSize: '0.7rem', color: '#999', textAlign: 'right', marginTop: '0.5rem', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '4px' }}>
