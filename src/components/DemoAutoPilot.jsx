@@ -191,7 +191,9 @@ const DemoAutoPilot = () => {
       if (selectEl) {
         const nativeSelectValueSetter = Object.getOwnPropertyDescriptor(window.HTMLSelectElement.prototype, "value").set;
         
-        moveCursorTo(selectEl.getBoundingClientRect().left + 20, selectEl.getBoundingClientRect().top + 10);
+        // Move para a ponta direita do select (onde fica a setinha de abrir)
+        const selectRect = selectEl.getBoundingClientRect();
+        moveCursorTo(selectRect.left + selectRect.width - 20, selectRect.top + selectRect.height / 2);
         await sleep(800);
         
         // 1. Simula SMS (O Celular aparece na tela neste momento)
@@ -206,36 +208,37 @@ const DemoAutoPilot = () => {
         await sleep(1000);
         
         // 3. Reposiciona o mouse no seletor (que subiu na tela devido ao scroll)
-        moveCursorTo(selectEl.getBoundingClientRect().left + 20, selectEl.getBoundingClientRect().top + 10);
+        const updatedSelectRect = selectEl.getBoundingClientRect();
+        moveCursorTo(updatedSelectRect.left + updatedSelectRect.width - 20, updatedSelectRect.top + updatedSelectRect.height / 2);
         await sleep(800);
         
         // 4. Simula Telegram
         simulateClick(selectEl);
-        await sleep(300);
+        await sleep(200);
         nativeSelectValueSetter.call(selectEl, 'telegram');
         selectEl.dispatchEvent(new Event('change', { bubbles: true }));
-        await sleep(2000);
+        await sleep(1500);
         
         // 5. Simula WhatsApp
         simulateClick(selectEl);
-        await sleep(300);
+        await sleep(200);
         nativeSelectValueSetter.call(selectEl, 'whatsapp');
         selectEl.dispatchEvent(new Event('change', { bubbles: true }));
-        await sleep(1500);
+        await sleep(1000);
       }
 
       // Scroll super cuidadoso apenas DENTRO do celular para ler a notificação
-      await naturalScrollElement('chat-container', 300, 4000);
-      await sleep(3500);
+      await naturalScrollElement('chat-container', 300, 3000);
+      await sleep(2000);
 
       await goToAndClick('a', 'analise', '/analise');
       
       // -- CENA 3: TELA ANÁLISE (REALIDADE ATUAL) --
       localStorage.setItem('demo_scene', '3-' + Date.now());
-      await sleep(2500);
+      await sleep(1500);
       // Rola a página revelando a tela complexa e encontrando o banner amarelo
-      await naturalScroll(400, 2000);
-      await sleep(3500); // 3.5 segundos: Tempo exato para o narrador terminar de falar sobre o susto e apresentar a solução
+      await naturalScroll(400, 1500);
+      await sleep(2500); // Tempo enxuto para o narrador
       await goToAndClick('button', 'acessar tradutor ambiental', '/tradutor/pendencias');
       
       // -- CENA 4: TELA TRADUTOR --
@@ -275,8 +278,24 @@ const DemoAutoPilot = () => {
       localStorage.setItem('demo_scene', '6-' + Date.now()); // Vira a cena APÓS o modal de sucesso fechar e voltar pra nota 100
       
       // TELA OPORTUNIDADES (Liberada)
-      await sleep(2000);
-      await naturalScroll(300, 2000);
+      await sleep(1500);
+      await naturalScroll(350, 2000);
+
+      // FALE CONOSCO (Apoio Técnico PSA)
+      await sleep(1500);
+      await goToAndClick('button', 'apoio técnico');
+      
+      await sleep(1500);
+      await typeText('input[placeholder*="(DD)"]', '(61) 99876-5432');
+      await sleep(800);
+      // Vai exatamente no input do checkbox (quadradinho) ao invés do label inteiro
+      await goToAndClick('input[type="checkbox"]');
+      
+      await sleep(1000);
+      await goToAndClick('button', 'enviar solicitação');
+      
+      await sleep(3000);
+      await goToAndClick('button', 'concluir');
       
       moveCursorTo(window.innerWidth - 100, 100);
       
@@ -324,9 +343,11 @@ const DemoAutoPilot = () => {
             borderRadius: '50%',
             pointerEvents: 'none',
             zIndex: 99999,
-            transform: `translate(-50%, -50%) scale(${isClicking ? 0.7 : 1})`,
-            transition: 'left 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), top 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.2s',
-            boxShadow: isClicking ? '0 0 15px rgba(231, 76, 60, 0.8)' : '0 2px 5px rgba(0,0,0,0.2)',
+            transform: `translate(-50%, -50%) scale(${isClicking ? 0.4 : 1})`,
+            transition: 'left 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), top 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.15s, background-color 0.15s, border 0.15s',
+            boxShadow: isClicking ? '0 0 20px rgba(255, 255, 255, 0.9)' : '0 2px 5px rgba(0,0,0,0.2)',
+            backgroundColor: isClicking ? 'rgba(255, 255, 255, 0.9)' : 'rgba(231, 76, 60, 0.6)',
+            border: isClicking ? '3px solid white' : '3px solid #c0392b',
           }}
         />
       )}

@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 const Oportunidades = () => {
   const [activeTab, setActiveTab] = useState('painel');
+  const [showApoioModal, setShowApoioModal] = useState(false);
+  const [apoioSuccess, setApoioSuccess] = useState(false);
   const nota = appState.nota;
   const isRegular = nota === 100;
 
@@ -159,7 +161,18 @@ const Oportunidades = () => {
                         : "Ao atingir 100 pontos, seu imóvel estará em conformidade com a Lei nº 14.119/2021 e com o Decreto nº 13.018. Isso significa que você poderá consultar os editais disponíveis (como o Floresta+ Amazônia) e verificar em quais deles as características da sua propriedade se encaixam."
                       }
                     </p>
-                    {isRegular && <button className="btn btn-primary" style={{ marginTop: '1rem', backgroundColor: '#9b59b6' }}>Consultar Editais de PSA</button>}
+                    {isRegular && (
+                      <div style={{ display: 'flex', gap: '10px', marginTop: '1rem' }}>
+                        <button className="btn btn-primary" style={{ backgroundColor: '#9b59b6' }}>Consultar Editais</button>
+                        <button 
+                          className="btn btn-secondary" 
+                          style={{ border: '2px solid #9b59b6', color: '#9b59b6', backgroundColor: 'transparent' }} 
+                          onClick={() => setShowApoioModal(true)}
+                        >
+                          Apoio Técnico
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {!isRegular && (
@@ -233,6 +246,66 @@ const Oportunidades = () => {
           </div>
         </div>
       )}
+
+      {/* Modal de Apoio Técnico */}
+      {showApoioModal && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="card animate-fade-in" style={{ width: '90%', maxWidth: '500px', backgroundColor: 'white', position: 'relative' }}>
+            {!apoioSuccess ? (
+              <>
+                <button 
+                  onClick={() => setShowApoioModal(false)}
+                  style={{ position: 'absolute', top: '15px', right: '15px', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}
+                >
+                  ✕
+                </button>
+                <h3 style={{ marginTop: 0, color: '#333' }}>Apoio Técnico (SENAR/EMATER)</h3>
+                <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                  Nossos parceiros entrarão em contato para auxiliar gratuitamente na submissão da sua propriedade em editais de Pagamento por Serviços Ambientais.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '0.9rem' }}>Celular / WhatsApp</label>
+                    <input type="text" placeholder="(DD) 99999-9999" className="form-input" style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', fontSize: '0.85rem', color: '#555' }}>
+                      <input type="checkbox" style={{ marginTop: '3px' }} />
+                      Autorizo o compartilhamento dos dados ambientais do meu CAR com a equipe técnica.
+                    </label>
+                  </div>
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={() => {
+                      setTimeout(() => setApoioSuccess(true), 800);
+                    }}
+                    style={{ width: '100%', justifyContent: 'center', marginTop: '10px', backgroundColor: '#9b59b6' }}
+                  >
+                    Enviar Solicitação
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+                <CheckCircle2 size={64} color="var(--success)" style={{ margin: '0 auto', marginBottom: '1rem' }} />
+                <h3 style={{ color: 'var(--success)' }}>Solicitação Enviada!</h3>
+                <p style={{ color: '#666' }}>Um técnico especialista do SENAR entrará em contato com você em até 48 horas úteis.</p>
+                <button 
+                  className="btn btn-primary" 
+                  onClick={() => {
+                    setShowApoioModal(false);
+                    setApoioSuccess(false);
+                  }}
+                  style={{ marginTop: '1rem', backgroundColor: '#9b59b6' }}
+                >
+                  Concluir
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

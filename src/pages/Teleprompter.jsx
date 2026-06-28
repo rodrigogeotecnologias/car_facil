@@ -4,37 +4,37 @@ const scriptScenes = [
   { 
     id: 1, 
     title: "Cena 1: Oportunidades",
-    text: "No Brasil, ter uma pendência no CAR não é só um risco de multa, é deixar dinheiro na mesa! Hoje, produtores perdem acesso a crédito verde e Pagamentos por Serviços Ambientais (PSA) simplesmente por não entenderem a burocracia ambiental. Por isso criamos o CAR em Dia, uma solução inovadora projetada para rodar nativamente dentro do sistema oficial do Governo, o SICAR. Nós gamificamos as regras complexas. O produtor entende exatamente o que falta para atingir a Nota 100 de conformidade.", 
+    text: "No Brasil, ter pendência no CAR é deixar dinheiro na mesa! Produtores perdem acesso a crédito verde e Pagamentos por Serviços Ambientais (PSA) por não entenderem a burocracia. Por isso, criamos o CAR em Dia, para rodar nativamente dentro do SICAR. Nós gamificamos regras complexas para o produtor entender o que falta para a Nota 100.", 
     duration: 23000 
   },
   { 
     id: 2, 
     title: "Cena 2: Multi-Canal",
-    text: "E para resolver as pendências, a nossa jornada não começa num portal complicado, começa onde o produtor está! O Governo envia a notificação pelo canal de preferência dele: SMS, Telegram ou WhatsApp. E a mensagem já vem com um link de acesso imediato, sem necessidade de logins difíceis.", 
+    text: "E a nossa jornada começa onde o produtor está! O Governo envia a notificação pelo canal de preferência: SMS, Telegram ou WhatsApp. A mensagem já vem com link de acesso imediato, sem logins difíceis.", 
     duration: 23000 
   },
   { 
     id: 3, 
     title: "Cena 3: A Realidade",
-    text: "Ao clicar, ele cai na tela oficial de Análise do SICAR. Aquele monte de termo técnico assusta. Mas é aí que a nossa mágica acontece: adicionamos o botão 'Tradutor Ambiental', que pega esse documento oficial e descomplica na hora!", 
+    text: "Ao clicar, ele cai na tela de Análise do SICAR. Aquele monte de termo técnico assusta. Mas adicionamos o botão 'Tradutor Ambiental', que descomplica esse documento oficial na hora!", 
     duration: 10000 
   },
   { 
     id: 4, 
     title: "Cena 4: O Tradutor",
-    text: "O relatório governamental vira linguagem de campo! Com ilustrações claras e mapas interativos e fáceis de ler, o produtor entende exatamente onde está o erro na sua propriedade e como a retificação vai acontecer.", 
-    duration: 20000 
+    text: "O relatório vira linguagem de campo! Com mapas interativos e fáceis de ler, o produtor entende exatamente onde está o erro na sua propriedade e como corrigir.", 
+    duration: 13000 
   },
   { 
     id: 5, 
     title: "Cena 5: A Retificação",
-    text: "E para resolver? Ele não precisa contratar um consultor caro! Nós aproveitamos o Módulo de Retificação que já existe no Governo, mas com o produtor já empoderado pela tradução! Basta revisar, aceitar a sugestão automática do sistema, assinar eletronicamente e pronto!", 
+    text: "Para resolver, não precisa de consultor caro! Aproveitamos o Módulo de Retificação do Governo, mas com o produtor empoderado! Basta revisar a sugestão automática, assinar e pronto!", 
     duration: 17000 
   },
   { 
     id: 6, 
-    title: "Cena 6: Recompensa",
-    text: "O cadastro é atualizado na hora! A nota de conformidade sobe para o nível máximo, e ele desbloqueia instantaneamente as oportunidades de PSA que estavam travadas. CAR em Dia: O compliance ambiental descomplicado e recompensador!", 
+    title: "Cena 6: Recompensa e Apoio",
+    text: "O cadastro é atualizado na hora e atinge a Nota 100! Com o PSA desbloqueado, ele clica para solicitar Apoio Técnico. O sistema já pré-preenche tudo e aciona o SENAR para auxiliá-lo gratuitamente a colocar dinheiro no bolso. CAR em Dia: compliance ambiental gerando valor real!", 
     duration: 22000 
   }
 ];
